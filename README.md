@@ -57,7 +57,7 @@ olcRootDN:cn=Manager,dc=ldapserver,dc=co,dc=kr
 dn:olcDatabase={2}hdb,cn=config
 changetype:modify
 replace:olcRootPW
-olcRootPW:{SSHA}+69cxc4V3XQBQ4WY7T/HmjqVg/jJKcyx
+olcRootPW:{SSHA}/TJ2S3gfbQyhVOIWNn3naK8OojDrhs06
 
 // 원본설정 수정선언, RootPW 설정선언, 패스워드 기입
 
