@@ -10,47 +10,59 @@ LDAP
 
 * "$" -> "#" 으로 정정.
 
-$ yum install -y openldap-servers openldap-clients nss-pam-ldapd
+        $ yum install -y openldap-servers openldap-clients nss-pam-
+
 // 기본 패키지 인스톨
 
-$ systemctl start slapd 
+        $ systemctl start slapd 
+
 // 데몬시작 (389 포트)
 
 $ vi /etc/hosts & ping sever
+
 // 도메인 설정 및 핑 테스트
+
 192.168.111.100 ldapserver.co.kr  server
 192.168.111.200 ldapclient.co.kr  client
 192.168.1111.250 mountserver.co.kr  mount
 
-##### Openldap의 환경설정은 /etc/openldap/slapd.d/cn=config/olcDatabase=~.ldif를 읽어오는데, 해당 파일을 수동편집하는게 아니라 Config 양식을 생성 후, ldapmodify 명령어로 업데이트를 하는 방식이다.
+Openldap의 환경설정은 /etc/openldap/slapd.d/cn=config/olcDatabase=~.ldif를 읽어오는데, 
+해당 파일을 수동편집하는게 아니라 Config 양식을 생성 후, ldapmodify 명령어로 업데이트를 하는 방식이다.
 
 $ cp /usr/share/openldap-servers/slapd.ldif /etc/openldap/slapd.conf
+
 // 환경설정 템플릿을 복사.
 
 $ slappasswd 
+
 // ldap 관리자 패스워드 설정 
 // {SSHA}/TJ2S3gfbQyhVOIWNn3naK8OojDrhs06 해쉬로 변환
 
 $ vi domain.ldif
+
 dn:olcDatabase={2}hdb,cn=config
 changetype:modify
 replace:olcSuffix
 olcSuffix:dc=ldapserver,dc=co,dc=kr
+
 // dc 설정 (ldapserver.co.kr)
 
 dn:olcDatabase={2}hdb,cn=config
 changetype:modify
 replace:olcRootDN
 olcRootDN:cn=Manager,dc=ldapserver,dc=co,dc=kr
+
 // dc 설정 (Manager 계정 = root)
 
 dn:olcDatabase={2}hdb,cn=config
 changetype:modify
 replace:olcRootPW
 olcRootPW:{SSHA}+69cxc4V3XQBQ4WY7T/HmjqVg/jJKcyx
+
 // 원본설정 수정선언, RootPW 설정선언, 패스워드 기입
 
 $ ldapmodify -Y EXTERNAL -H ldapi:/// -f domain.ldif
+
 // LDAP Server에 환경설정 업데이트
 
 #### LDAP 인증서 만들기
