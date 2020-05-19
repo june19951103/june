@@ -6,7 +6,8 @@ LDAP
 
 ### OpenLdap Server 구축
 
-#### LDAP Server
+LDAP Server
+-----------
 
 * "$" -> "#" 으로 정정.
 
@@ -65,7 +66,7 @@ olcRootPW:{SSHA}/TJ2S3gfbQyhVOIWNn3naK8OojDrhs06
 
 // LDAP Server에 환경설정 업데이트
 
-#### LDAP 인증서 만들기
+### LDAP 인증서 만들기
 
         $ openssl req -new -x509 -out /etc/openldap/certs/ldapcert.pem -keyout /etc/openldap/certs/ldapkey.pem -days 365
 // LDAP 서버에 대한 자체 서명된 키로 "/etc/openldap/certs" 디렉토리에 인증서와 개인 키를 모두 생성
@@ -152,7 +153,8 @@ shadowWarning:7
         $ ldapsearch -x cn=ldapuser1 -b dc=ldapserver,dc=co,dc=kr
 // 유저가 반영되었는지 확인.
 
-#### LDAP Client
+LDAP Client
+-----------
 
         $ yum install -y openldap-client nss-pa-ldapd
 // ldap 관련 패키지 설치.
@@ -169,7 +171,8 @@ shadowWarning:7
         $ su - ldapuser1
 // 로그인 성공.
 
-#### NFS Server
+NFS Server
+----------
 
         $ yum install nfs-utils
 // NFS 패키지 설치
@@ -194,7 +197,8 @@ shadowWarning:7
         $ exportfs -v
 // NFS 설정 잘 되었는지 확인.
 
-#### 다시 LDAP Client
+다시 LDAP Client
+----------------
 
         $ yum install -y autofs
         $ systemctl start autofs
@@ -213,7 +217,8 @@ ldapuser1 - rw, vers=3 192.168.111.250:/home/guest/ldapuser1
         $ df -h 
 // 재시작 하여 로그인 후 마운트 성공 확인.
 
-#### DNS서버 구축.
+DNS서버 구축.
+------------
 
         $yum -y install bind
 // DNS 패키지 설치.
@@ -251,8 +256,8 @@ www             IN      A       22.22.22.22
 
 // zone 파일은 기본적으로 /var/named 경로에 저장하도록 설정되어 있으며,위에서 설정한 파일 이름과 동일하게 생성 해야함. 
  
- < 레코드 설명 >
- ---------------
+#### < 레코드 설명 >
+
 1) NS(Name Server) : zone을 풀이할 수 있는 DNS 서버의 목록을 가지고 있습니다.
 2) A(Host) : 정규화된 도메인 이름/호스트명을 IPv4에 연결합니다.
 3) CNAME(Canonical NAME) : 실제 호스트명과 연결되는 별칭을 정의합니다.
